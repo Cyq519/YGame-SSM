@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.YGame.dao.IManageDao">
+	<!-- 查询用户信息 -->
+	<select id="userLogin"  resultType="com.YGame.pojo.Manage">
+		select * from manager where manageName = #{manageName} and managePassword = #{managePassword}
+	</select>
+
+	<!-- 查询游戏信息 -->
+	<select id="selectGameList"  resultType="com.YGame.pojo.GameList">
+		select * from t_gamelist 
+	</select>
+	
+	<!-- 添加游戏 -->
+	<insert id="addGame" parameterType="com.YGame.pojo.GameList">
+		insert into t_gamelist(gamename,initials,hot,gamelogo,client,iosorandroid)
+		values( #{gamename,jdbcType=VARCHAR},  #{initials,jdbcType=VARCHAR},  #{hot,jdbcType=INTEGER}, 
+		 #{gamelogo,jdbcType=VARCHAR},  #{client,jdbcType=INTEGER},  #{iosorandroid,jdbcType=INTEGER} )
+	</insert>
+	
+	<!-- 修改游戏信息 -->
+	<update id="updateGame">
+		update t_gamelist
+		set gamename = #{gamename},initials = #{initials,},hot = #{hot,},gamelogo = #{gamelogo},client = #{client},iosorandroid = #{iosorandroid}
+		where id = #{id}
+	</update>
+	
+	<!-- 删除游戏信息 -->
+	<delete id="deleteGame">
+		delete from t_gamelist where id = #{id}
+	</delete>
+	
+	<!-- 查询服务器信息 -->
+	<select id="fuwuqiguanli" resultType="com.YGame.pojo.GameFWQ">
+		select * from t_gamefuwuqi
+	</select>
+	
+	<!-- 添加服务器 -->
+	<insert id="addFWQ" parameterType="com.YGame.pojo.GameFWQ">
+		insert into t_gamefuwuqi(gameName,gamept,gamedq,gamefuwuqi)
+		values( #{gameName,jdbcType=VARCHAR},  #{gamept,jdbcType=VARCHAR},  #{gamedq,jdbcType=VARCHAR}, #{gamefuwuqi,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 更新服务器信息 -->
+	<update id="updateFWQ">
+		update t_gamefuwuqi
+		set gameName = #{gameName}, gamept = #{gamept}, gamedq = #{gamedq}, gamefuwuqi = #{gamefuwuqi}
+		where id = #{id}
+	</update>
+	
+	<!-- 删除服务器 -->
+	<update id="deleteFWQ">
+		delete from t_gamefuwuqi where id = #{id}
+	</update>
+	
+	
+	
+	<!-- 查询用户信息 -->
+	<select id="userguanli" resultType="com.YGame.pojo.User">
+		select * from t_user
+	</select>
+	
+	<!-- 更新用户状态 -->
+	<update id="updateusertype">
+		update t_user
+		set usertype = #{type}
+		where id = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="deleteuser">
+		delete from t_user
+		where id = #{id}
+	</delete>
+	
+	<!-- 查询轮播图 -->
+	<select id="lbtguanli" resultType="com.YGame.pojo.Slider">
+		select * from sliderimg order by selectz
+	</select>
+	<!-- 更新轮播图 -->
+	<update id="updatelbt2">
+		update sliderimg
+		set selectz = #{value} 
+		where id = #{id}
+	</update>
+	<!-- 更新轮播图 -->
+	<update id="updatelbt">
+		update sliderimg
+		set selectz = (
+			select ub.selectz from  (
+				select selectz from sliderimg where id = #{id}
+			)ub
+		)
+		where selectz = #{value}
+		
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

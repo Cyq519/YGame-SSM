@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.YGame.dao.IProductDao">
+	<resultMap id="ResultMap" type="com.YGame.pojo.Product" >
+	    <id column="id" property="id" jdbcType="INTEGER" />
+	    <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+	    <result column="goodsPrice" property="goodsPrice" jdbcType="VARCHAR" />
+	    <result column="goodsJieShao" property="goodsJieShao" jdbcType="VARCHAR" />
+	    <result column="goodsNumber" property="goodsNumber" jdbcType="VARCHAR" />
+	    <result column="gameType1" property="gameType1" jdbcType="VARCHAR" />
+	    <result column="gameType2" property="gameType2" jdbcType="VARCHAR" />
+	    <result column="goodsImage1" property="goodsImage1" jdbcType="VARCHAR" />
+	    <result column="goodsImage2" property="goodsImage2" jdbcType="VARCHAR" />
+	    <result column="goodsImage3" property="goodsImage3" jdbcType="VARCHAR" />
+	    <result column="goodsImage4" property="goodsImage4" jdbcType="VARCHAR" />
+	    <result column="goodsImage5" property="goodsImage5" jdbcType="VARCHAR" />
+	    <result column="goodsTime" property="goodsTime" jdbcType="VARCHAR" />
+	    <result column="goodsUserID" property="userID" jdbcType="INTEGER" />         
+  	</resultMap>
+  	
+	<select id="SelectLists" resultType="com.YGame.pojo.GameList" >
+		select * from t_gamelist
+	</select>
+	<select id="SelectLists2" resultType="String" >
+		select distinct type2Name from t_type where type1Name=#{DaFenLei}
+	</select>
+	<select id="storeAddress" resultType="String" >
+		select distinct typeValue from t_type where type1Name=#{type1}
+	</select>
+	
+	<select id="indexSelectImg" resultMap="ResultMap">
+		select * from t_goods order by rand() limit 8
+	</select>
+	
+	<!-- 详情页搜索产品信息 -->
+	<select id="selectProductXq" resultType="com.YGame.pojo.Product" >
+		select * from t_goods where id=#{id}
+	</select>
+	
+	<!-- 根据首字母查询游戏种类列表 -->
+	<select id="selectGameList" resultType="com.YGame.pojo.GameList">
+		<!-- 0datavalue 1rmyx 2khd -->
+		select * from t_gamelist where 
+		<if test='rmyx == "1"'>
+			hot = #{rmyx}
+		</if>
+		<if test='datavalue != "null" '>
+			initials = #{datavalue}
+		</if>
+			and client != #{gamekhd}	
+	</select>
+	
+	<!-- 查询热门游戏种类列表 -->
+	<select id="selectHotGame" resultType="com.YGame.pojo.GameList">
+		select * from t_gamelist where hot=#{datavalue}
+	</select>
+	<!-- 插入产品信息 -->
+	<insert id="insertProduct"  parameterType="com.YGame.pojo.Product">
+		insert into t_goods(goodsName,goodsPrice,goodsJieShao,goodsNumber,gameType1,gameType2,
+		goodsImage1,goodsImage2,goodsImage3,goodsImage4,goodsImage5,goodsTime,UserID,goodszt,gamept,gamedq,gamefwq,userName,Unpaid)
+		values(#{goodsName,jdbcType=VARCHAR},  #{goodsPrice,jdbcType=INTEGER},  #{goodsJieShao,jdbcType=VARCHAR},  #{goodsNumber,jdbcType=VARCHAR},  
+		#{gameType1,jdbcType=VARCHAR},  #{gameType2,jdbcType=VARCHAR},  #{goodsImage1,jdbcType=VARCHAR},  #{goodsImage2,jdbcType=VARCHAR},
+		#{goodsImage3,jdbcType=VARCHAR},  #{goodsImage4,jdbcType=VARCHAR}, #{goodsImage5,jdbcType=VARCHAR},#{goodsTime,jdbcType=VARCHAR},
+		#{userID,jdbcType=INTEGER}, #{goodszt,jdbcType=INTEGER},#{gamept,jdbcType=VARCHAR},#{gamedq,jdbcType=VARCHAR},#{gamefwq,jdbcType=VARCHAR}
+		,#{userName,jdbcType=VARCHAR},#{Unpaid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 搜索选定游戏的分类和logo -->
+	<select id="selectGameInfo" resultType="String">
+		select gamelogo from t_gamelist 
+		where gamename=#{gamename}
+	</select>
+	<!-- 搜索选定游戏的二级分类 -->
+	<select id="selectGameInfo2" resultType="String">
+		select type2Name from t_type 
+		where type1Name=#{gamename}
+	</select>
+	<!-- 搜索选定游戏的三级分类 -->
+	<select id="selectGameInfo3" resultMap="ResultMap">
+		select * from t_goods
+		where gameType1=#{type1} and gameType2=#{type2}
+		<if test=' sort == "1"'>
+			order by goodsPrice
+		</if>
+	</select>
+ 
+	<!-- 搜索选定游戏的大区 -->
+	<select id="selectDQ" resultType="String">
+		select distinct gamedq from t_gamefuwuqi
+		where gameName=#{gamename}
+	</select>
+	<!-- 搜索选定游戏的大区 的服务器 -->
+	<select id="selectFWQ" resultType="String">
+		select distinct gamefuwuqi from t_gamefuwuqi
+		where gameName=#{type1} and gamedq=#{dq}
+		<if test=' pt != "null"'>
+			and gamept=#{pt}
+		</if>
+	</select>
+	
+	<!-- 搜索我售卖的商品 -->
+	<select id="selectMyProduct" resultType="com.YGame.pojo.Product">
+		select * from t_goods where UserID = #{id}
+		<if test=' pxfs == "1"'>
+			order by goodsTime desc
+		</if>
+		<if test=' pxfs == "2"'>
+			order by goodsTime
+		</if>
+		<if test=' pxfs == "3"'>
+			order by goodsPrice desc
+		</if>
+		<if test=' pxfs == "4"'>
+			order by goodsPrice 
+		</if>
+		
+	</select>
+
+	<!-- 更新产品信息 -->
+	<update id="updateProduct">
+		update t_goods
+		set goodsName = #{goodsName} , goodsPrice = #{goodsPrice} , goodsJieShao = #{goodsJieShao} , goodsNumber = #{goodsNumber} , gameType1 = #{gameType1},
+		gameType2 = #{gameType2},goodsImage1 = #{goodsImage1},goodsImage2 = #{goodsImage2},goodsImage3 = #{goodsImage3},goodsImage4 = #{goodsImage4},
+		goodsImage5 = #{goodsImage5} , goodsTime = #{goodsTime} , UserID = #{userID} , goodszt = #{goodszt} , gamept = #{gamept} , gamedq = #{gamedq},
+		gamefwq = #{gamefwq}
+		where id = #{id}
+	</update>
+	
+	<!-- 删除商品 或者 购买后商品数量为0也删除-->
+	<delete id="deleteMyProduct">
+		delete from t_goods where id = #{id}
+	</delete>
+	
+	<!-- 购买商品后修改商品数量 若剩余量为0 查询未支付的是否有 如没有则删除商品 -->
+	<select id="selectUnPaidNum" resultType="Integer">
+		select Unpaid from t_goods where id = #{id}
+	</select>
+	<!-- 购买商品后修改商品数量 -->
+	<update id="reduceMyProductNum">
+		update t_goods
+		set goodsNumber = #{num}
+		where id = #{id}
+	</update>
+	<!-- 下单未支付 对应的未支付列加上对应的数量 -->
+	<update id="addUnPaid">
+		update t_goods
+		set Unpaid = Unpaid + #{buynum} ,goodsNumber = goodsNumber - #{buynum}
+		where id = #{id}
+	</update>
+	
+	<!-- 插入交易信息 -->
+	<insert id="addTransAction"  parameterType="com.YGame.pojo.TTransaction">
+		insert into t_mybuy
+		(customerId, sellerId, goodsName, goodsPrice, goodsType, gameServer, buynumber, goodsJieShao, goodsImage1, 
+		goodsImage2, goodsImage3, goodsImage4, goodsImage5, buyTime, totalPrice,sellerName,customerName,state,goodsId,ddId,refund,updatetime)
+		
+		values(#{customerId,jdbcType=INTEGER},  #{sellerId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}
+		, #{goodsType,jdbcType=VARCHAR}, #{gameServer,jdbcType=VARCHAR}, #{buynumber,jdbcType=INTEGER}, #{goodsJieShao,jdbcType=VARCHAR}
+		, #{goodsImage1,jdbcType=VARCHAR}, #{goodsImage2,jdbcType=VARCHAR}, #{goodsImage3,jdbcType=VARCHAR}, #{goodsImage4,jdbcType=VARCHAR}
+		, #{goodsImage5,jdbcType=VARCHAR}, #{buyTime,jdbcType=VARCHAR}, #{totalPrice,jdbcType=INTEGER}, #{sellerName,jdbcType=VARCHAR},
+		 #{customerName,jdbcType=VARCHAR} , #{state,jdbcType=INTEGER},#{goodsId,jdbcType=INTEGER},#{ddId,jdbcType=VARCHAR},#{refund,jdbcType=INTEGER},
+		 #{updatetime,jdbcType=INTEGER})
+	</insert>
+	<insert id="addTransAction2"  parameterType="com.YGame.pojo.TTransaction">
+		insert into t_mysale(customerId, sellerId, goodsName, goodsPrice, 
+		goodsType, gameServer, buynumber, goodsJieShao, goodsImage1, 
+		goodsImage2, goodsImage3, goodsImage4, goodsImage5, buyTime, totalPrice,sellerName,customerName,state,goodsId,ddId,refund,updatetime)
+		
+		values(#{customerId,jdbcType=INTEGER},  #{sellerId,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=INTEGER}
+		, #{goodsType,jdbcType=VARCHAR}, #{gameServer,jdbcType=VARCHAR}, #{buynumber,jdbcType=INTEGER}, #{goodsJieShao,jdbcType=VARCHAR}
+		, #{goodsImage1,jdbcType=VARCHAR}, #{goodsImage2,jdbcType=VARCHAR}, #{goodsImage3,jdbcType=VARCHAR}, #{goodsImage4,jdbcType=VARCHAR}
+		, #{goodsImage5,jdbcType=VARCHAR}, #{buyTime,jdbcType=VARCHAR}, #{totalPrice,jdbcType=INTEGER}, #{sellerName,jdbcType=VARCHAR}, 
+		#{customerName,jdbcType=VARCHAR} , #{state,jdbcType=INTEGER},#{goodsId,jdbcType=INTEGER},#{ddId,jdbcType=VARCHAR},#{refund,jdbcType=INTEGER},
+		#{updatetime,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 查询我购买的商品的信息 -->
+	<select id="myBuyProductInfo" resultType="com.YGame.pojo.TTransaction">
+		select * from t_mybuy where customerId = #{userid} 
+		order by
+		<if test=' pxfs == "1" '>
+			totalPrice 
+		</if>
+		<if test=' pxfs == "2" '>
+			totalPrice desc
+		</if>
+		<if test=' pxfs == "3" '>
+			buyTime
+		</if>
+		<if test=' pxfs == "4" '>
+			buyTime desc
+		</if>
+	</select>
+	
+	<!-- 删除我购买的商品的信息 -->
+	<delete id="deleteMyBuyProductInfo">
+		delete from t_mybuy where id = #{listid}
+	</delete>
+	
+	<!-- 查询我卖出的商品的信息 -->
+	<select id="mySaleProductInfo" resultType="com.YGame.pojo.TTransaction">
+		select * from t_mysale where sellerId = #{userid}
+		order by refund ,updatetime desc
+	</select>
+	
+	<!-- 删除我购买的商品的订单信息 -->
+	<delete id="deleteMySaleProductInfo">
+		delete from t_mysale where id = #{listid}
+	</delete>
+	
+	<!-- 添加收藏 -->
+	<insert id="addCollection">
+		insert into t_mycollection(goodsId,collectorId)
+		values( #{id,jdbcType=INTEGER},#{loginid,jdbcType=INTEGER})
+	</insert>
+
+	<!-- 查询该商品是否已经收藏过 -->
+	<select id="selectCollectionInfo" resultType="Integer">
+		select goodsId from t_mycollection
+		where goodsId = #{id} and collectorId = #{loginid}
+	</select>
+	
+	<!-- 先搜索收藏了哪些商品 搜索商品id -->
+	<select id="selectMyCollectionProductId" resultType="Integer">
+		select goodsId from t_mycollection
+		where collectorId = #{myid}
+	</select>
+	<!-- 	 查询 我收藏的产品的详细信息 -->
+	<select id="selectMyCollectionProductInfo" resultType="com.YGame.pojo.Product">
+		select * from t_goods
+		where id in
+		<foreach collection="list" item="item"  separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	<!-- 删除收藏 -->
+	<delete id="deleteMyCollection" >
+		delete from t_mycollection 
+		where goodsId = #{goodsid} and collectorId = #{userid}
+	</delete>
+	
+	<!-- 修改上架状态 -->
+	<update id="changeProductState" >
+		update t_goods
+		set goodszt = #{state}
+		where id = #{goodsid} 
+	</update>
+	<!-- 修改我购买商品的交易状态 比如 生成订单未付款 付款后状态改为已付款 -->
+	<update id="updateMyBuyProductInfo" >
+		update t_mybuy set state=2
+		where ddid = #{ddid} 
+	</update>
+	<!-- 修改我购买商品的交易状态 比如 生成订单未付款 付款后状态改为已付款 -->
+	<update id="updateMySaleProductInfo" >
+		update t_mysale set state=2
+		where ddid = #{ddid} 
+	</update>
+	<!-- 取消订单后 删除 两个交易表中的数据 -->
+	<delete id="cancelOrder" >
+		delete from t_mysale
+		where t_mysale.ddId = #{ddid}
+	</delete>
+	<!-- 取消订单后 删除 两个交易表中的数据 -->
+	<delete id="cancelOrder2" >
+		delete from t_mybuy
+		where t_mybuy.ddId = #{ddid}
+	</delete>
+	<!-- 取消订单后 删除 两个交易表中的数据   然后对应的商品数量+1-->
+	<update id="cancelOrderAddProductNumber" >
+		update t_goods 
+		set goodsNumber = goodsNumber + #{buynum},Unpaid = Unpaid - #{buynum} 
+		where id = #{goodsid}
+	</update>
+	<!-- 确认收货-->
+	<update id="confirmReceipt" >
+		<if test=' T == "t_mysale"'>
+			update t_mysale
+		</if>
+		<if test=' T == "t_mybuy"'>
+			update t_mybuy
+		</if>
+		set state = 3
+		where ddId = #{ddid}
+	</update>
+	<!-- 申请退款 -->
+	<update id="applyRrefund" >
+		<if test=' Param == "t_mysale"'>
+			update t_mysale
+		</if>
+		<if test=' Param == "t_mybuy"'>
+			update t_mybuy		
+		</if>
+		set refund = 2,reasontip = #{reason},reasonbq = #{type}
+		where ddId = #{ddid}
+	</update>
+	<!-- 根据订单号查询订单信息 -->
+	<select id="selectDDById" resultType="com.YGame.pojo.TTransaction">
+		select * from t_mysale where ddId = #{ddid}
+	</select>
+	<!-- 同意退款 -->
+	<update id="agreeRefund">
+		<if test=' Param == "t_mysale"'>
+			update t_mysale
+		</if>
+		<if test=' Param == "t_mybuy"'>
+			update t_mybuy
+		</if>
+		set refund = 3
+		where ddId = #{ddId}
+	</update>
+	<!-- 拒绝退款 -->
+	<update id="refuseRefund">
+		<if test=' Param == "t_mysale"'>
+			update t_mysale
+		</if>
+		<if test=' Param == "t_mybuy"'>
+			update t_mybuy
+		</if>
+		set refund = 4
+		where ddId = #{ddId}
+	</update>
+	
+	<!-- 我购买商品有哪些种类 -->
+	<select id="selectMyProductType" resultType="String">
+		select distinct gameType1 from t_goods
+		where UserID = #{myid}
+	</select>
+	<!-- 根据选择的游戏类型 搜索有哪些产品 -->
+	<select id="selectMyByGameType1" resultType="com.YGame.pojo.Product">
+		select * from t_goods
+		where UserID = #{myid} and gameType1 = #{type}
+	</select>
+	<!-- 根据选择的游戏类型 搜索有哪些产品 -->
+	<select id="selectMyByGameType2" resultType="com.YGame.pojo.Product">
+		select * from t_goods
+		where UserID = #{myid} and gameType1 = #{type} and gameType2 =#{type2}
+	</select>
+	<!-- 	//我购买产品页面 初始化加载商品种类 -->
+	<select id="selectTypeByJY" resultType="String">
+		select distinct goodsType from t_mybuy
+		where customerId = #{myid} 
+	</select>
+	<!-- //我购买产品页面 点击分类切换 -->
+	<select id="mybuyByGoodsType" resultType="com.YGame.pojo.TTransaction">
+		select *  from t_mybuy
+		where customerId = #{myid} and goodsType = #{type}
+		order by
+		<if test=' pxfs == "1" '>
+			totalPrice 
+		</if>
+		<if test=' pxfs == "2" '>
+			totalPrice desc
+		</if>
+		<if test=' pxfs == "3" '>
+			buyTime
+		</if>
+		<if test=' pxfs == "4" '>
+			buyTime desc
+		</if>
+	</select>
+	
+</mapper>

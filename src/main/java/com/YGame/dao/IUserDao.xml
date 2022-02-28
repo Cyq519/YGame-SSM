@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.YGame.dao.IUserDao">
+	<!-- 用户登录 -->
+	<select id="usersLogin" resultType="com.YGame.pojo.User" >
+		select * from t_user where userName=#{userName} and password=#{password}
+	</select>
+	
+	<!-- 检查用户名是否存在 -->
+	<select id="checkUserName" resultType="com.YGame.pojo.User" >
+		select * from t_user where userName=#{userName}
+	</select>
+	
+	<!-- 查询所有信息 用来更新session -->
+	<select id="updateSession" resultType="com.YGame.pojo.User" >
+		select * from t_user where userName=#{userName}
+	</select>
+	
+	<!-- 注册用户 -->
+	<insert id="userRegister" parameterType="com.YGame.pojo.User">
+		insert into t_user(userName,password,image,usertype,nicheng,gexingqianming,sex,iphonenumber,email,saleNum,cansleNum,buyNum)
+		values(#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR},#{usertype,jdbcType=VARCHAR},
+		#{nicheng,jdbcType=VARCHAR},#{gexingqianming,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{iphonenumber,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},#{saleNum,jdbcType=INTEGER},#{cansleNum,jdbcType=INTEGER},#{buyNum,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 更新用户信息 -->
+	<update id="updataUserInfo" parameterType="com.YGame.pojo.User">
+		update t_user
+		set nicheng = #{nicheng},sex = #{sex},iphonenumber = #{iphonenumber},email = #{email},image = #{image}
+		where userName = #{userName}
+	</update>
+	<!-- 确认收货后  交易成功数量 +1 -->
+	<update id="saleNumAdd">
+		update t_user
+		set saleNum = saleNum + 1
+		where id = #{userid}
+	</update>
+	
+	<!-- 退款后  取消订单数量+1 -->
+	<update id="cancelNumAdd">
+		update t_user
+		set cansleNum = cansleNum + 1
+		where id = #{myid}
+	</update>
+	<!-- 查询用户信息 -->
+	<select id="selectUserInfo"  resultType="com.YGame.pojo.User">
+		select * from t_user where id = #{userid}
+	</select>
+	
+	<!-- 自己购买时候 购买数量+1 -->
+	<update id="addBuyNum">
+		update t_user 
+		set buyNum = buyNum + 1
+		where id = #{one}
+	</update>
+	<!-- 修改密码 -->
+	<update id="xiugaimima">
+		update t_user
+		set password = #{newpassword}
+		where id = #{id}
+	</update>
+</mapper>

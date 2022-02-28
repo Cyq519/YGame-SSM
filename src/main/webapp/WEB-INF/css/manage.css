@@ -1,0 +1,67 @@
+@charset "UTF-8";
+*{margin:0;padding:0}
+.manage-bg{width:100%;height:730px;background:url('../image/manage-bg.jpg') no-repeat center center;background-size: cover; background-attachment: fixed;}
+.title{width:100%;height:80px;line-height:80px;color:#000;text-align:center;font-size:25px;}
+.manage-dl{width:350px;height:360px;background:rgba(255,255,255,0.7);position:absolute;left:550px;top:200px;}
+.manage-dl-tit{width:100%;height:30px;line-height:30px;color:#0589eb;text-align:center;font-size:20px;}
+.yhm{width:100%;height:40px;;line-height:50px;padding-top:10px;padding-left:25px;}
+.yhm p{margin:0;width:70px;height:20px;line-height:20px;text-align:center;}
+.yhm input{height:30px;width:250px;border:none;background:#e2e4e7;outline:none;position:absolute;margin-top:6px;}
+
+.mm{width:100%;height:40px;;line-height:50px;padding-top:20px;padding-left:25px;}
+.mm p{margin:0;width:50px;height:20px;line-height:20px;text-align:center;}
+.mm input{height:30px;width:250px;border:none;background:#e2e4e7;outline:none;position:absolute;margin-top:6px;}
+
+.button{width:100%;height:40px;margin-top:30px;padding-left:70px;}
+.chongzhi{display:inline-block;background:#27acf3;width:100px;height:30px;line-height:30px;text-align:center;border-radius:5px;cursor:pointer;}
+.denglu{display:inline-block;background:#27acf3;width:100px;height:30px;line-height:30px;text-align:center;border-radius:5px;cursor:pointer;}
+
+
+/*managecenter*/
+.managecenter{width:100%;height:100%;}
+.top{width:100%;height:50px;background:#33363D}
+.zhuti{width:100%;height:710px; }
+.left{width:200px;height:100%;background:#33363D;display:inline-block;color:#ADB3B3;vertical-align:top;}
+.right{width:1319px;height:100%;background:#fff;display:inline-block;vertical-align:top;background:url('../image/guanli-bg.jpg') no-repeat center center;background-size: cover; background-attachment: fixed;margin-left:-5px;}
+.top ul li{float:left;}
+.top .tit{width:200px;height:50px;line-height:50px;background:#383D41;color:#ADB3B3;text-align:center;font-size:20px;}
+.top div{display:inline-block;vertical-align:top;}
+.top .img{width:50px;height:50px;border-radius:50px;overflow:hidden;}
+.top .name{width:100px;height:50px;color:#ADB3B3;line-height:50px;text-align:center;}
+.xingqi{width:100%;height:20px;line-height:30px;text-align:center;color:#ADB3B3}
+.riqi{width:100%;height:20px;line-height:30px;text-align:center;color:#ADB3B3}
+.exit{color:#ADB3B3;height:50px;line-height:50px;width:100px;}
+.left div{width:100%;height:40px;line-height:30px;cursor:pointer;text-align:center;}
+.left ul li{width:100%;height:30px;line-height:30px;text-align:center;}
+.left a{text-decoration:none;}
+.nav:hover{color:#fff;}
+.nav{color:#ADB3B3;font-size:18px;height:35px;}
+
+
+/*gameguanli*/
+.right-top{width:100%;height:50px;background:#383D41;border-bottom:1px solid #383D41;}
+.info-display{width:1220px;height:600px;/*background:rgba(255,255,255,0.1)*/;position:absolute;left:230px;top:120px;}
+.table thead {height:35px;line-height:30px;font-size:18px;}
+.table thead tr th{text-align:center}
+#list tr td{text-align:center;font-size:16px;background:rgba(255,255,255,0.5)}
+#list tr td button{width:35px;height:25px;}
+.list tr td{text-align:center;font-size:16px;background:rgba(255,255,255,0.5)}
+.list tr td button{width:55px;height:25px;}
+
+.slider_lb li{width:100%;height:300px;position:absolute;left:0;top:0;background-repeat: no-repeat;background-position: center center}
+
+select{width:100px;height:30px;background:rgba(255,255,255,0.5)}
+option{background:rgba(255,255,255,0.5)}
+.slider_bq{width:800px;height:40px;position:absolute;top:260px;left:300px;}
+.slider_bq li{width:150px;height:40px;font-size:18px;float:left;color:#ffffff;text-align:center;list-style:none;}
+.slider_bq li p{margin-top:8px;}
+.current{background-color:rgba(5,207,250,0.5);}
+
+
+
+
+
+
+
+
+

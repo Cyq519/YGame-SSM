@@ -1,0 +1,37 @@
+@charset "UTF-8";
+body{margin:0;}
+
+.info_title{width:500px;heigth:60px;font-size:20px;padding-left:30px;line-height:60px;border-bottom:2px #f5f6f7 solid;}
+.personalinfo{margin-top:20px;}
+.personal_tx{width:550px;height:80px;line-height:80px;}
+.personal_tx p{line-height:30px;text-align:center;color: #fff;font-size: 14px;height: 30px;width: 80px;background: rgba(0,0,0,.5);float:left;margin-top:-60px;}
+
+.personal_yhm{width:800px;margin-left:20px;height:50px;margin-top:25px;}
+.personal_nc{width:800px;margin-left:20px;height:50px;;}
+.personal_brith{width:800px;margin-left:20px;height:50px;}
+.personal_sex{width:800px;margin-left:20px;height:50px;}
+.personal_iphone{width:800px;margin-left:20px;height:50px;}
+.personal_mail{width:800px;margin-left:20px;height:50px;}
+#personal_xiugai{width:200px;height:30px;background:rgba(255,255,255,0.5);margin-left:120px;margin-top:30px;}
+input{border:1px solid #b7b7b7}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

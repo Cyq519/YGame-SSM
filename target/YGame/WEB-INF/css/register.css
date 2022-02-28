@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+.zhuce_info{width:430px;height:400px;margin:auto;position:fixed;left:550px;top:150px;z-index:9;display:none;background:#fff}
+.zhuce_title{border-bottom:#000 1px solid;padding-left:30px;}
+
+.register_form{width:330px;height:430px;margin-left:30px;}
+.form-box li{height:50px;margin-top:15px;margin-left:30px;}
+.label_01{float:left}
+.label_02{float:left}
+.label_03{float:left}
+.input_01{width:250px;height:40px;margin-top:2px;}
+.input_02{width:250px;height:40px;margin-top:2px;}
+.input_03{width:250px;height:40px;border: none;background: #f5f6f7;outline: none;margin-top:2px;}
+
+.input_05{width:150px;height:30px;margin-left:11px;border: none;background: #f5f6f7;outline: none;position:absolute;margin-left:11px;}
+#v_container{width: 100px;height:30px;background:#fff;margin-left:190px;position:absolute;}
+
+.button_03{width:280px;height:40px;font-size:20px;border:#fff 1px solid;position:absolute;margin-top:50px;margin-left:10px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
